@@ -2,6 +2,9 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
+// Quit to prevent opening multiple windows
+if (require("electron-squirrel-startup")) app.quit();
+
 function createWindow () {
     // Create the browser window.
     const mainWindow = new BrowserWindow({

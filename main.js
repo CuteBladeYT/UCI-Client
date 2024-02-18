@@ -28,7 +28,7 @@ function createWindow () {
     mainWindow.setFullScreen(true);
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     // Send customs
     mainWindow.webContents.on("dom-ready", () => {

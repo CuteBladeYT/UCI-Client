@@ -1,7 +1,9 @@
-const fs = require("fs");
+const { ipcRenderer } = require("electron");
+
+console.log("Loading UCI Client...");
 
 document.addEventListener("DOMContentLoaded", async () => {
-    await load_user_customs();
+    // ipcRenderer.send("get_customs");
 
     document.addEventListener("keyup", (e) => {
         
@@ -17,27 +19,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 });
 
-async function load_user_customs() {
-    let user_customs = {
-        userscripts: {},
-        userstyles: {}
-    };
-
-    for (let i = 0; i < 2; i++) {
-        let files_path = ["userscripts","userstyles"][i];
-
-        let files = await fs.readdirSync(files_path);
-        
-        for (j = 0; j < files.length; j++) {
-            let file_name = files[j];
-
-            let file_content = await fs.readFileSync(`${files_path}/${file_name}`, {encoding:"utf-8"});
-
-            user_customs[files_path][file_name] = file_content;
-        };
-    };
-    
-
+ipcRenderer.on("customs", (a0, user_customs = {
+    userscripts: {},
+    userstyles: {}
+}) => {
     let scripts = user_customs["userscripts"];
     let styles = user_customs["userstyles"];
     
@@ -67,4 +52,4 @@ async function load_user_customs() {
 
         document.head.appendChild(s);
     };
-};
+});
